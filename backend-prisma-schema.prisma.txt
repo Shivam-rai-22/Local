@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PASSENGER
+  DRIVER
+  ADMIN
+}
+
+enum TripStatus {
+  REQUESTED
+  ACCEPTED
+  EN_ROUTE
+  ARRIVED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum DriverStatus {
+  OFFLINE
+  ONLINE
+  ON_TRIP
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  phoneNumber   String?   @unique
+  phoneVerified Boolean   @default(false)
+  role          UserRole
+  firstName     String
+  lastName      String
+  profileImage  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  passenger     Passenger?
+  driver        Driver?
+  refreshTokens RefreshToken[]
+
+  @@index([email])
+  @@index([phoneNumber])
+}
+
+model Passenger {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  rating            Float    @default(5.0)
+  totalTrips        Int      @default(0)
+  stripeCustomerId  String?
+  
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trips             Trip[]
+  ratings           Rating[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Driver {
+  id                  String        @id @default(uuid())
+  userId              String        @unique
+  status              DriverStatus  @default(OFFLINE)
+  vehicleModel        String
+  vehicleColor        String
+  vehiclePlate        String        @unique
+  licenseNumber       String        @unique
+  rating              Float         @default(5.0)
+  totalTrips          Int           @default(0)
+  currentLatitude     Float?
+  currentLongitude    Float?
+  stripeAccountId     String?
+  isApproved          Boolean       @default(false)
+  
+  user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trips               Trip[]
+  ratings             Rating[]
+  earnings            Earning[]
+  
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([status])
+  @@index([currentLatitude, currentLongitude])
+}
+
+model Trip {
+  id                  String      @id @default(uuid())
+  passengerId         String
+  driverId            String?
+  status              TripStatus  @default(REQUESTED)
+  
+  pickupAddress       String
+  pickupLatitude      Float
+  pickupLongitude     Float
+  
+  dropoffAddress      String
+  dropoffLatitude     Float
+  dropoffLongitude    Float
+  
+  estimatedDistance   Float       // in kilometers
+  estimatedDuration   Int         // in minutes
+  estimatedFare       Float
+  
+  actualDistance      Float?
+  actualDuration      Int?
+  finalFare           Float?
+  surgeMultiplier     Float       @default(1.0)
+  
+  scheduledAt         DateTime?
+  acceptedAt          DateTime?
+  startedAt           DateTime?
+  completedAt         DateTime?
+  cancelledAt         DateTime?
+  cancellationReason  String?
+  
+  paymentIntentId     String?
+  paymentStatus       String      @default("pending")
+  
+  passenger           Passenger   @relation(fields: [passengerId], references: [id])
+  driver              Driver?     @relation(fields: [driverId], references: [id])
+  rating              Rating?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  @@index([passengerId])
+  @@index([driverId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Rating {
+  id          String   @id @default(uuid())
+  tripId      String   @unique
+  passengerId String
+  driverId    String
+  score       Int      // 1-5
+  comment     String?
+  
+  trip        Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  passenger   Passenger @relation(fields: [passengerId], references: [id])
+  driver      Driver   @relation(fields: [driverId], references: [id])
+  
+  createdAt   DateTime @default(now())
+
+  @@index([driverId])
+  @@index([passengerId])
+}
+
+model Earning {
+  id              String   @id @default(uuid())
+  driverId        String
+  tripId          String?
+  amount          Float
+  type            String   // "trip", "bonus", "adjustment"
+  description     String?
+  
+  driver          Driver   @relation(fields: [driverId], references: [id])
+  
+  createdAt       DateTime @default(now())
+
+  @@index([driverId])
+  @@index([createdAt])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+model OTP {
+  id          String   @id @default(uuid())
+  phoneNumber String
+  code        String
+  expiresAt   DateTime
+  verified    Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+
+  @@index([phoneNumber])
+}

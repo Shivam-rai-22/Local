@@ -1,0 +1,38 @@
+{
+  "name": "local-mate-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Mate - Pickup & Drop Service Monorepo",
+  "workspaces": [
+    "backend",
+    "mobile"
+  ],
+  "scripts": {
+    "backend:dev": "yarn workspace backend dev",
+    "backend:build": "yarn workspace backend build",
+    "backend:start": "yarn workspace backend start",
+    "mobile:start": "yarn workspace mobile start",
+    "mobile:android": "yarn workspace mobile android",
+    "mobile:ios": "yarn workspace mobile ios",
+    "db:migrate": "yarn workspace backend prisma:migrate",
+    "db:seed": "yarn workspace backend prisma:seed",
+    "test": "yarn workspaces run test",
+    "lint": "yarn workspaces run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  }
+}

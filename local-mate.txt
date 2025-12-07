@@ -1,0 +1,129 @@
+/local-mate
+├── README.md
+├── .env.example
+├── package.json
+├── tsconfig.json
+├── .eslintrc.json
+├── .prettierrc.json
+├── docker-compose.yml
+├── .gitignore
+├── backend/
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── Dockerfile
+│   ├── .env.example
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── seed.ts
+│   └── src/
+│       ├── server.ts
+│       ├── app.ts
+│       ├── types/
+│       │   └── index.ts
+│       ├── lib/
+│       │   ├── jwt.ts
+│       │   ├── logger.ts
+│       │   └── prisma.ts
+│       ├── middleware/
+│       │   ├── auth.ts
+│       │   ├── errorHandler.ts
+│       │   └── validation.ts
+│       ├── utils/
+│       │   ├── fareCalculator.ts
+│       │   ├── distance.ts
+│       │   └── otp.ts
+│       ├── services/
+│       │   ├── payment.service.ts
+│       │   ├── matching.service.ts
+│       │   ├── notification.service.ts
+│       │   └── websocket.service.ts
+│       ├── controllers/
+│       │   ├── auth.controller.ts
+│       │   ├── user.controller.ts
+│       │   ├── trip.controller.ts
+│       │   ├── driver.controller.ts
+│       │   └── admin.controller.ts
+│       ├── routes/
+│       │   ├── auth.ts
+│       │   ├── user.ts
+│       │   ├── trips.ts
+│       │   ├── driver.ts
+│       │   └── admin.ts
+│       └── __tests__/
+│           ├── fare.spec.ts
+│           └── matching.spec.ts
+├── mobile/
+│   ├── package.json
+│   ├── app.json
+│   ├── tsconfig.json
+│   ├── babel.config.js
+│   ├── metro.config.js
+│   ├── .env.example
+│   ├── assets/
+│   │   ├── logo.svg
+│   │   ├── logo.png
+│   │   ├── icon.png
+│   │   └── splash.png
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── types/
+│   │   │   └── index.ts
+│   │   ├── constants/
+│   │   │   └── theme.ts
+│   │   ├── api/
+│   │   │   ├── client.ts
+│   │   │   ├── auth.ts
+│   │   │   ├── trips.ts
+│   │   │   └── websocket.ts
+│   │   ├── state/
+│   │   │   ├── store.ts
+│   │   │   ├── authSlice.ts
+│   │   │   ├── tripSlice.ts
+│   │   │   └── driverSlice.ts
+│   │   ├── navigation/
+│   │   │   ├── AppNavigator.tsx
+│   │   │   ├── AuthNavigator.tsx
+│   │   │   └── DriverNavigator.tsx
+│   │   ├── screens/
+│   │   │   ├── Onboarding/
+│   │   │   │   ├── WelcomeScreen.tsx
+│   │   │   │   └── RoleSelectionScreen.tsx
+│   │   │   ├── Auth/
+│   │   │   │   ├── LoginScreen.tsx
+│   │   │   │   ├── SignupScreen.tsx
+│   │   │   │   └── PhoneVerificationScreen.tsx
+│   │   │   ├── Passenger/
+│   │   │   │   ├── HomeScreen.tsx
+│   │   │   │   ├── BookingScreen.tsx
+│   │   │   │   ├── TripScreen.tsx
+│   │   │   │   ├── HistoryScreen.tsx
+│   │   │   │   └── ProfileScreen.tsx
+│   │   │   └── Driver/
+│   │   │       ├── DashboardScreen.tsx
+│   │   │       ├── ActiveTripScreen.tsx
+│   │   │       ├── EarningsScreen.tsx
+│   │   │       └── DriverProfileScreen.tsx
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Input.tsx
+│   │   │   │   ├── Header.tsx
+│   │   │   │   ├── Loading.tsx
+│   │   │   │   └── ErrorBoundary.tsx
+│   │   │   ├── map/
+│   │   │   │   ├── MapView.tsx
+│   │   │   │   ├── DriverMarker.tsx
+│   │   │   │   └── RoutePolyline.tsx
+│   │   │   └── trip/
+│   │   │       ├── RideCard.tsx
+│   │   │       ├── FareBreakdown.tsx
+│   │   │       └── RatingModal.tsx
+│   │   └── utils/
+│   │       ├── location.ts
+│   │       └── payment.ts
+│   └── __tests__/
+│       └── App.test.tsx
+└── .github/
+    └── workflows/
+        ├── ci.yml
+        └── backend-test.yml

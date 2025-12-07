@@ -1,0 +1,37 @@
+# Database
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/localmate
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_REFRESH_SECRET=your-refresh-secret-key-change-in-production
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+
+# Server
+PORT=4000
+NODE_ENV=development
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_51234567890abcdefghijklmnopqrstuvwxyz
+STRIPE_PUBLISHABLE_KEY=pk_test_51234567890abcdefghijklmnopqrstuvwxyz
+STRIPE_WEBHOOK_SECRET=whsec_1234567890abcdefghijklmnopqrstuvwxyz
+
+# Google Maps
+GOOGLE_MAPS_API_KEY=AIzaSyYourGoogleMapsAPIKey
+
+# Firebase Cloud Messaging
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_PRIVATE_KEY=your-private-key
+FIREBASE_CLIENT_EMAIL=your-client-email@your-project.iam.gserviceaccount.com
+
+# Pricing Configuration
+BASE_FARE=3.00
+PER_KM_RATE=1.50
+PER_MINUTE_RATE=0.30
+SURGE_MULTIPLIER_MAX=3.0
+
+# OTP (for development, use a service like Twilio in production)
+OTP_EXPIRY_MINUTES=5
+
+# CORS
+CORS_ORIGIN=http://localhost:19006,exp://localhost:19000
